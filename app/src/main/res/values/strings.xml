@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="shonosure">Shonosure</string>
+    <string name="login">Login</string>
+    <string name="ajouter">Ajouter</string>
+    <string name="soumettre">soumettre</string>
 </resources>
