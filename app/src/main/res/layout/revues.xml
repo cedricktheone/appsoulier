@@ -7,11 +7,11 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="129dp"
-        android:layout_height="75dp"
+        android:layout_width="113dp"
+        android:layout_height="103dp"
         android:text="photo"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="88dp" />
+        tools:layout_editor_absoluteY="2dp" />
 
     <Button
         android:id="@+id/button3"
@@ -23,11 +23,11 @@
 
     <TextView
         android:id="@+id/textVtitre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="82dp"
+        android:layout_height="36dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="37dp"
-        tools:layout_editor_absoluteY="177dp" />
+        tools:layout_editor_absoluteX="62dp"
+        tools:layout_editor_absoluteY="232dp" />
 
     <EditText
         android:id="@+id/editTextTextMultiLine"
@@ -36,6 +36,7 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        tools:layout_editor_absoluteY="278dp" />
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="276dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
