@@ -1,9 +1,11 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+
 
 class AdapteurSoulier(private val context: Context, private val dataList: MutableList<Revue>):BaseAdapter() {
     override fun getCount(): Int {
@@ -18,7 +20,9 @@ class AdapteurSoulier(private val context: Context, private val dataList: Mutabl
         return position.toLong()
     }
 
-    override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
+    override fun getView(p0: Int, convertView: View?, p2: ViewGroup?): View {
+        val currentItem = getItem(p0) as Soulier;
+        val itemView = convertView ?: LayoutInflater.from(context).inflate(R.layout.liste_revues,p2,false)
         TODO("Not yet implemented")
     }
 }

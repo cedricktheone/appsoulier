@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editTextREvue"
+        android:layout_width="537dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="68dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textVCommentaires"
+        app:layout_constraintStart_toEndOf="@+id/textVCommentaires" />
+
+    <TextView
+        android:id="@+id/textVCommentaires"
+        android:layout_width="133dp"
+        android:layout_height="28dp"
+        android:textSize="20sp"
+        android:text="@string/revue"
+        tools:layout_editor_absoluteX="4dp"
+        tools:layout_editor_absoluteY="285dp" />
+
+    <Button
+        android:id="@+id/buttonphoto"
+        android:layout_width="113dp"
+        android:layout_height="103dp"
+        android:layout_marginStart="4dp"
+        android:text="@string/photo"
+        android:backgroundTint="@color/orange"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/soumettre"
+        android:backgroundTint="@color/orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textVtitre"
+        android:layout_width="115dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/titre"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonphoto" />
+
+    <EditText
+        android:id="@+id/editTextTire"
+        android:layout_width="522dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="84dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textVtitre"
+        app:layout_constraintStart_toEndOf="@+id/textVtitre" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

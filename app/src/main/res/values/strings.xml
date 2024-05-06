@@ -4,4 +4,13 @@
     <string name="login">Login</string>
     <string name="ajouter">Ajouter</string>
     <string name="soumettre">soumettre</string>
+    <string name="revue">Revue:</string>
+    <string name="titre">titre:</string>
+    <string name="photo">photo</string>
+    <string name="note">0.0</string>
+    <string name="ajouter_une_revue">Ajouter une revue</string>
+    <string name="modifier">modifier</string>
+    <string name="supprimer">supprimer</string>
+    <string name="titre_lbl">Titre</string>
+    <string name="commentaires">Commentaires</string>
 </resources>
