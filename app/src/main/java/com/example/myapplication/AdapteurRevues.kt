@@ -31,8 +31,16 @@ class AdapteurRevues(private val context: Context, private val dataList: Mutable
 
 
         val titre = itemView.findViewById<TextView>(R.id.texttitre)
-        val revue = itemView.findViewById<ScrollView>(R.id.textViewcomms)
         val image =  itemView.findViewById<ImageView>(R.id.imagesoulier)
+        val utilisateur =  itemView.findViewById<TextView>(R.id.textViewnom)
+        val note=  itemView.findViewById<TextView>(R.id.textViewnote)
+
+        titre.text = currentItem.titre
+        utilisateur.text = currentItem.utilisateur
+        image.setImageResource(R.drawable.soulier)
+        note.text = currentItem.note.toString()
+
+
 
 
 
