@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +31,16 @@ var listeSoulier: MutableList<Soulier> = mutableListOf(
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.listViewsoulier.adapter = adapter
         setContentView(binding.root)
+
+
+
+
+        binding.listViewsoulier.setOnItemClickListener { adapterView, view, i, l ->
+            //val intent = Intent(this, ActiviterAjouterSoulier::class.java)
+            //val item = adapterView.getItemAtPosition(position) as Soulier
+            //intent.putExtra("objet", item.toString())
+            Log.i("heeeeereeee","here lool")
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
