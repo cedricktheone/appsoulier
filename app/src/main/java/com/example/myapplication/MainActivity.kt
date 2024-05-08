@@ -30,15 +30,6 @@ var listeSoulier: MutableList<Soulier> = mutableListOf(
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.listViewsoulier.adapter = adapter
         setContentView(binding.root)
-
-
-
-
-
-
-
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -27,12 +27,13 @@ class AdapteurSoulier(private val context: Context, private val dataList: Mutabl
 
     override fun getView(p0: Int, convertView: View?, p2: ViewGroup?): View {
         val currentItem = getItem(p0) as Soulier;
-        val itemView = convertView ?: LayoutInflater.from(context).inflate(R.layout.liste_revues,p2,false)
+        val itemView = convertView ?: LayoutInflater.from(context).inflate(R.layout.un_pare,p2,false)
 
         val nom = itemView.findViewById<TextView>(R.id.textViewnom)
-        val image = itemView.findViewById<ImageView>(R.id.imagesoulier)
+        val image = itemView.findViewById<ImageView>(R.id.imageViewsoulier)
         val rating = itemView.findViewById<RatingBar>(R.id.ratingBar2)
         val prix = itemView.findViewById<TextView>(R.id.textViewprix)
+
 
 
         nom.text = currentItem.nom
