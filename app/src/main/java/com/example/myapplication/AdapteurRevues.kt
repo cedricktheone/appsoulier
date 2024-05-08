@@ -41,9 +41,6 @@ class AdapteurRevues(private val context: Context, private val dataList: Mutable
         note.text = currentItem.note.toString()
 
 
-
-
-
         return itemView
 
     }
