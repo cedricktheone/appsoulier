@@ -6,6 +6,6 @@ data class Revue(
     var titre:String,
     var commentaire:String,
     val utilisateur:String,
-    var note: Int,
+    var note: Float,
     val image: Int?
 )

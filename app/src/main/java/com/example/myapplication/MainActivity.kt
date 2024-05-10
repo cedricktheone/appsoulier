@@ -1,29 +1,59 @@
 package com.example.myapplication
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     var listeRevues: MutableList<Revue> =mutableListOf(
-        Revue("LOL","DDDD","Ced",3,R.drawable.soulier),
-        Revue("LOL","DDDD","Ced",2,R.drawable.soulier),
-        Revue("LOL","DDDD","Ced",5,R.drawable.soulier),
+        Revue("LOL","DDDD","Ced",3f,R.drawable.soulier),
+        Revue("haha","DDDD","Ced",2f,R.drawable.soulier),
+        Revue("sfdfd","DDDD","Ced",5f,R.drawable.soulier),
 
     )
 
 var listeSoulier: MutableList<Soulier> = mutableListOf(
-        Soulier(listeRevues,"DDDD",20,2,R.drawable.soulier),
-    Soulier(listeRevues,"DDDD",40,4,R.drawable.soulier),
-    Soulier(listeRevues,"DDDD",12,3,R.drawable.soulier),
+        Soulier(listeRevues,"DDDD",5f,20,R.drawable.soulier),
+    Soulier(listeRevues,"DDDD",2f,40,R.drawable.soulier),
+    Soulier(listeRevues,"DDDD",0f,12,R.drawable.soulier),
 
     )
+    val soulierLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val intentData = result.data
+            val jsonSoulier = intentData?.getStringExtra("soulier")
+
+            // Parse JSON string into Soulier object
+            val gson = Gson()
+            val soulier: Soulier? = gson.fromJson(jsonSoulier, Soulier::class.java)
+
+            soulier?.let {
+                // Update adapter with the new Soulier object
+                // Assuming adapter and classList are accessible here
+                // Update properties of existing Soulier if found, otherwise add new Soulier
+                val existingItem = listeSoulier.find { it.nom == soulier.nom }
+                if (existingItem != null) {
+                    // Item exists, update its properties
+                    existingItem.revues = soulier.revues
+                    existingItem.prix = soulier.prix
+                } else {
+                    // Add new Soulier to the list
+                    listeSoulier.add(soulier)
+                }
+                // Notify adapter about the data change
+                adapter.notifyDataSetChanged()
+            }
+        }
+    }
 
     val adapter = AdapteurSoulier(this,listeSoulier)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +66,15 @@ var listeSoulier: MutableList<Soulier> = mutableListOf(
 
 
         binding.listViewsoulier.setOnItemClickListener { adapterView, view, i, l ->
-            //val intent = Intent(this, ActiviterAjouterSoulier::class.java)
-            //val item = adapterView.getItemAtPosition(position) as Soulier
-            //intent.putExtra("objet", item.toString())
-            Log.i("heeeeereeee","here lool")
+            val intent = Intent(this, ActiviterAjouterSoulier::class.java)
+            val item = adapterView.getItemAtPosition(i) as Soulier
+
+            // Serialize Soulier object to JSON string
+            val gson = Gson()
+            val soulierJson = gson.toJson(item)
+
+            intent.putExtra("soulier", soulierJson)
+            soulierLauncher.launch(intent)
         }
     }
 

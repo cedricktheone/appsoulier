@@ -3,22 +3,26 @@ package com.example.myapplication
 import android.media.Image
 
 class Soulier (
-    var revues:List<Revue>,
+    var revues:MutableList<Revue>,
     val nom:String,
+    var note:Float =0f,
     var prix:Number,
-    var note:Int,
     val image: Int
 
 ){
-    fun somme(): Int {
-        var somme:Int =0
-        var nb_rev:Int =0
-        for (revue in revues){
-            somme+= revue.note
-            nb_rev++
-        }
-        return somme / nb_rev
+
+    init {
+        calculateNote()
     }
 
+    private fun calculateNote() {
+        if (revues.isNotEmpty()) {
+            var totalNote = 0f
+            for (revue in revues) {
+                totalNote += revue.note
+            }
+            note = totalNote / revues.size
+        }
+    }
 
 }

@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 
 class AdapteurRevues(private val context: Context, private val dataList: MutableList<Revue>):BaseAdapter() {
@@ -32,14 +30,15 @@ class AdapteurRevues(private val context: Context, private val dataList: Mutable
 
         val titre = itemView.findViewById<TextView>(R.id.texttitre)
         val image =  itemView.findViewById<ImageView>(R.id.imagesoulier)
-        val utilisateur =  itemView.findViewById<TextView>(R.id.textViewnom)
-        val note=  itemView.findViewById<TextView>(R.id.textViewnote)
+        val commentaires =  itemView.findViewById<TextView>(R.id.textViewcomms)
+        //val utilisateur =  itemView.findViewById<TextView>(R.id.textViewnom)
+        val note=  itemView.findViewById<TextView>(R.id.note)
 
         titre.text = currentItem.titre
-        utilisateur.text = currentItem.utilisateur
+        commentaires.text = currentItem.commentaire
         image.setImageResource(R.drawable.soulier)
         note.text = currentItem.note.toString()
-
+        println("here")
 
         return itemView
 

@@ -61,4 +61,5 @@
     <string name="title_activity_activite_ajouter_soulier">Activite_AjouterSoulier</string>
     <string name="nom">Nom</string>
     <string name="prix">Prix</string>
+    <string name="_0">0</string>
 </resources>
