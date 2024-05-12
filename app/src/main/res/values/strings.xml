@@ -62,4 +62,5 @@
     <string name="nom">Nom</string>
     <string name="prix">Prix</string>
     <string name="_0">0</string>
+    <string name="noterevue">note:</string>
 </resources>

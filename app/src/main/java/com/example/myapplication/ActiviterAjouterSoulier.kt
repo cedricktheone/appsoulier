@@ -6,49 +6,64 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityActiviterAjouterSoulierBinding
-import com.example.myapplication.databinding.ActivityMainBinding
 import com.google.gson.Gson
 
 class ActiviterAjouterSoulier : AppCompatActivity() {
-    private lateinit var binding:ActivityActiviterAjouterSoulierBinding
+    private lateinit var binding: ActivityActiviterAjouterSoulierBinding
+    private lateinit var soulier: Soulier
+    private lateinit var adapter: AdapteurRevues // Declare adapter as a class-level variable
+
+    // Initialize ajouterRevueLauncher as before
     val ajouterRevueLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-
             val data: Intent? = result.data
             data?.let {
-                val titre = it.getStringExtra("titre")
-                val commentaire = it.getStringExtra("commentaire")
-                val utilisateur = it.getStringExtra("utilisateur")
-                val note = it.getFloatExtra("note", 0f)
-                val image = it.getIntExtra("image", 0)
+                val gson = Gson()
+                val revueJson = it.getStringExtra("revueJson")
+                val revue = gson.fromJson(revueJson, Revue::class.java)
 
-                // Create a Revue object with the retrieved data
-                val revue = Revue(titre ?: "", commentaire ?: "", utilisateur ?: "", note, image)
+                if (soulier.revues.contains(revue)) {
+                    // Edit existing revue
+                    val existingRevue = soulier.revues.find { it == revue }
+                    existingRevue?.apply {
+                        titre = revue.titre
+                        commentaire = revue.commentaire
+                        note = revue.note
+                        image = revue.image
+                    }
+                } else {
+                    // Add new revue
+                    soulier.revues.add(revue)
+                }
 
-                // Perform any actions with the newly created Revue object
+                adapter.notifyDataSetChanged() // Notify adapter of changes
             }
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val soulierJson = intent.getStringExtra("soulier")
+        val gson = Gson()
+        soulier = gson.fromJson(soulierJson, Soulier::class.java)
         super.onCreate(savedInstanceState)
         binding = ActivityActiviterAjouterSoulierBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val soulierJson = intent.getStringExtra("soulier")
-        val gson = Gson()
-        val soulier: Soulier = gson.fromJson(soulierJson, Soulier::class.java)
-        val adapter = AdapteurRevues(this, soulier.revues)
-        println(soulier.revues)
-        binding.lstRevues?.adapter = adapter
+
+        adapter = AdapteurRevues(this, soulier.revues) // Initialize adapter here
+        binding.lstRevues.adapter = adapter
         binding.ratingBar.rating = soulier.note
-
-
-
-
 
         binding.buttonajoutrevue.setOnClickListener {
             val intent = Intent(this, AjouterRevueActivity::class.java)
             ajouterRevueLauncher.launch(intent)
         }
-    }
 
+        binding.lstRevues.setOnItemClickListener { parent, view, position, id ->
+            val item = parent.getItemAtPosition(position) as Revue
+            val RevueJson = gson.toJson(item)
+
+            intent.putExtra("revue", RevueJson)
+        }
+    }
 }
+

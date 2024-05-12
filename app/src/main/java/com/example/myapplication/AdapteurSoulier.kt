@@ -10,8 +10,6 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.compose.runtime.currentRecomposeScope
-
 
 class AdapteurSoulier(private val context: Context, private val dataList: MutableList<Soulier>):BaseAdapter() {
     override fun getCount(): Int {

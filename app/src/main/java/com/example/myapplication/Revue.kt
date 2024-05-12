@@ -7,5 +7,5 @@ data class Revue(
     var commentaire:String,
     val utilisateur:String,
     var note: Float,
-    val image: Int?
+    var image: Int?
 )
