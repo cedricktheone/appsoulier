@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,7 @@ class AdapteurRevues(private val context: Context, private val dataList: Mutable
         commentaires.text = currentItem.commentaire
         image.setImageResource(R.drawable.soulier)
         note.text = currentItem.note.toString()
-        println("here")
+
 
         return itemView
 

@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityActiviterAjouterSoulierBinding
@@ -52,18 +53,21 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         adapter = AdapteurRevues(this, soulier.revues) // Initialize adapter here
         binding.lstRevues.adapter = adapter
         binding.ratingBar.rating = soulier.note
+        val intent = Intent(this, AjouterRevueActivity::class.java)
+
 
         binding.buttonajoutrevue.setOnClickListener {
-            val intent = Intent(this, AjouterRevueActivity::class.java)
             ajouterRevueLauncher.launch(intent)
         }
 
         binding.lstRevues.setOnItemClickListener { parent, view, position, id ->
-            val item = parent.getItemAtPosition(position) as Revue
-            val RevueJson = gson.toJson(item)
-
-            intent.putExtra("revue", RevueJson)
+            val item = adapter.getItem(position) as Revue
+            Log.i("here", "looooooooooloooooooooool")
+            val revueJson = gson.toJson(item)
+            intent.putExtra("revue", revueJson)
+            ajouterRevueLauncher.launch(intent)
         }
+
     }
 }
 
