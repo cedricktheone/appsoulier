@@ -8,9 +8,9 @@
     <Spinner
         android:id="@+id/spinnernote"
         android:layout_width="235dp"
-        android:entries="@array/un_a_5"
         android:layout_height="0dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="228dp"
+        android:entries="@array/un_a_5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,17 +18,18 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="104dp"
         android:text="@string/noterevue"
-        app:layout_constraintBaseline_toBaselineOf="@+id/spinnernote"
         app:layout_constraintEnd_toStartOf="@+id/spinnernote"
-        app:layout_constraintHorizontal_bias="0.816"
-        app:layout_constraintStart_toEndOf="@+id/buttonphoto" />
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photosoulier" />
 
     <EditText
         android:id="@+id/editTextREvue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="100dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
@@ -39,19 +40,19 @@
         android:id="@+id/textVCommentaires"
         android:layout_width="82dp"
         android:layout_height="36dp"
-        android:layout_marginTop="86dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="76dp"
         android:text="@string/revue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textVtitre" />
 
     <Button
         android:id="@+id/buttonphoto"
-        android:layout_width="113dp"
-        android:layout_height="103dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="103dp"
+        android:layout_height="42dp"
         android:backgroundTint="@color/orange"
         android:text="@string/photo"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/photosoulier"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -68,10 +69,11 @@
         android:id="@+id/textVtitre"
         android:layout_width="82dp"
         android:layout_height="36dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="72dp"
         android:text="@string/titre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonphoto" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
         android:id="@+id/editTextTitre"
@@ -83,6 +85,15 @@
         android:inputType="textMultiLine"
         app:layout_constraintBaseline_toBaselineOf="@+id/textVtitre"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.342"
         app:layout_constraintStart_toEndOf="@+id/textVtitre" />
+
+    <ImageView
+        android:id="@+id/photosoulier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

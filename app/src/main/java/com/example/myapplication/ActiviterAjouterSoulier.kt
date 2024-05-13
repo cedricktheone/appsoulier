@@ -23,21 +23,19 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
                 val revueJson = it.getStringExtra("revueJson")
                 val revue = gson.fromJson(revueJson, Revue::class.java)
 
-                if (soulier.revues.contains(revue)) {
-                    // Edit existing revue
-                    val existingRevue = soulier.revues.find { it == revue }
-                    existingRevue?.apply {
-                        titre = revue.titre
-                        commentaire = revue.commentaire
-                        note = revue.note
-                        image = revue.image
-                    }
-                } else {
-                    // Add new revue
+
+                val existingRevue = soulier.revues.find { it.Id == revue.Id }
+                if (existingRevue != null) {
+                    existingRevue.titre = revue.titre
+                    existingRevue.commentaire = revue.commentaire
+                    existingRevue.note = revue.note
+                    existingRevue.image = revue.image
+                }
+                else{
+
                     soulier.revues.add(revue)
                 }
-
-                adapter.notifyDataSetChanged() // Notify adapter of changes
+                adapter.notifyDataSetChanged()
             }
         }
     }
@@ -62,7 +60,6 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
 
         binding.lstRevues.setOnItemClickListener { parent, view, position, id ->
             val item = adapter.getItem(position) as Revue
-            Log.i("here", "looooooooooloooooooooool")
             val revueJson = gson.toJson(item)
             intent.putExtra("revue", revueJson)
             ajouterRevueLauncher.launch(intent)

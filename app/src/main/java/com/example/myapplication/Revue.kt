@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import android.media.Image
 import java.io.Serializable
 import java.util.concurrent.atomic.AtomicInteger
 

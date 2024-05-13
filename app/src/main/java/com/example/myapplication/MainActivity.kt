@@ -3,7 +3,6 @@ package com.example.myapplication
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
@@ -86,7 +85,7 @@ var listeSoulier: MutableList<Soulier> = mutableListOf(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.ajouter ->{
-                startActivity(Intent(this,ActiviterAjouterSoulier::class.java))
+                startActivity(Intent(this,Login::class.java))
             }
 
         }
