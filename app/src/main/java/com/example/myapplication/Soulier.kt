@@ -15,12 +15,12 @@ class Soulier (
     }
 
     private fun calculateNote() {
-        if (revues.isNotEmpty()) {
+        if (revues?.isNotEmpty() == true) {
             var totalNote = 0f
-            for (revue in revues) {
+            for (revue in revues!!) {
                 totalNote += revue.note
             }
-            note = totalNote / revues.size
+            note = totalNote / revues!!.size
         }
     }
 
