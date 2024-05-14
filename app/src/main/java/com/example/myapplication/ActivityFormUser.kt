@@ -31,11 +31,13 @@ class ActivityFormUser : AppCompatActivity() {
             if (email.isBlank() || password.isBlank()) {
                 Toast.makeText(this, "Please fill in both fields", Toast.LENGTH_SHORT).show()
             } else {
+                val intent = Intent(this, MainActivity::class.java)
                 val existingUser = userList.find { it.email == email }
                 if (existingUser != null) {
                     if (authenticateUser(password, existingUser)) {
                         saveUserToSharedPreferences(existingUser)
                         Toast.makeText(this, "User authenticated", Toast.LENGTH_SHORT).show()
+                        startActivity(intent)
                     } else {
                         Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show()
                     }
@@ -47,9 +49,10 @@ class ActivityFormUser : AppCompatActivity() {
                     saveUserListToJson(userList)
                     saveUserToSharedPreferences(user)
                     Toast.makeText(this, "User created successfully", Toast.LENGTH_SHORT).show()
+                    startActivity(intent)
+
                 }
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+
 
             }
         }

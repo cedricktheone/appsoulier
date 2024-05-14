@@ -35,7 +35,7 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
 
                     soulier.revues?.add(revue)
                 }
-                calculateNote(soulier)
+                it.removeExtra("revueJson")
                 adapter.notifyDataSetChanged()
             }
         }
@@ -66,15 +66,6 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
             ajouterRevueLauncher.launch(intent)
         }
 
-    }
-    private fun calculateNote(soulier:Soulier ) {
-        if (soulier.revues?.isNotEmpty() == true) {
-            var totalNote = 0f
-            for (revue in soulier.revues!!) {
-                totalNote += revue.note
-            }
-            soulier.note = totalNote / soulier.revues!!.size
-        }
     }
 
     override fun onPause() {

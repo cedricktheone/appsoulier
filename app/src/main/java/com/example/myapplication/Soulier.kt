@@ -6,9 +6,9 @@ import java.io.Serializable
 class Soulier (
     var revues:MutableList<Revue>?,
     val nom:String,
-    var note:Float? =0f,
     var prix:Number,
-    val image: Int
+    val image: Int,
+    var note:Float? =0f
 
 ):Serializable{
 

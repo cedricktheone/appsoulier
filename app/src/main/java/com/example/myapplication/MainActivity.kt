@@ -58,9 +58,9 @@ class MainActivity : AppCompatActivity() {
             )
 
             listeSoulier= mutableListOf(
-                Soulier(listeRevues,"DDDD",5f,20,R.drawable.soulier),
-                Soulier(listeRevues,"DDDD",2f,40,R.drawable.soulier),
-                Soulier(listeRevues,"DDDD",0f,12,R.drawable.soulier)
+                Soulier(listeRevues,"DDDD",20,R.drawable.soulier),
+                Soulier(listeRevues,"DDDD",40,R.drawable.soulier),
+                Soulier(listeRevues,"DDDD",12,R.drawable.soulier)
             )
 
         }
@@ -88,6 +88,19 @@ class MainActivity : AppCompatActivity() {
             R.id.ajouter -> {
                 val intent = Intent(this, ActiviterAjouterSoulier::class.java)
                 soulierLauncher.launch(intent)
+            }
+            R.id.pageaceuille->{
+                val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.remove("user")
+                editor.apply()
+                val intent = Intent(
+                    applicationContext,
+                    Login::class.java
+                )
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.putExtra("EXIT", true)
+                startActivity(intent)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -128,13 +141,5 @@ class MainActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
-    private fun calculateNote(soulier:Soulier ) {
-        if (soulier.revues?.isNotEmpty() == true) {
-            var totalNote = 0f
-            for (revue in soulier.revues!!) {
-                totalNote += revue.note
-            }
-            soulier.note = totalNote / soulier.revues!!.size
-        }
-    }
+
 }

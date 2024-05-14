@@ -33,14 +33,24 @@ class AdapteurSoulier(private val context: Context, private val dataList: Mutabl
         val rating = itemView.findViewById<RatingBar>(R.id.ratingBar2)
         val prix = itemView.findViewById<TextView>(R.id.textViewprix)
 
-
+        currentItem.note = calculateNote(currentItem)
 
         nom.text = currentItem.nom
         image.setImageResource(currentItem.image)
         rating.rating = currentItem.note!!
         prix.text = currentItem.prix.toString()
-        println(currentItem.note)
+
 
        return itemView
+    }
+    private fun calculateNote(soulier:Soulier ): Float? {
+        if (soulier.revues?.isNotEmpty() == true) {
+            var totalNote = 0f
+            for (revue in soulier.revues!!) {
+                totalNote += revue.note
+            }
+            soulier.note = totalNote / soulier.revues!!.size
+        }
+        return soulier.note
     }
 }
