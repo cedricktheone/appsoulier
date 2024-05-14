@@ -24,7 +24,7 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
                 val revue = gson.fromJson(revueJson, Revue::class.java)
 
 
-                val existingRevue = soulier.revues.find { it.Id == revue.Id }
+                val existingRevue = soulier.revues?.find { it.Id == revue.Id }
                 if (existingRevue != null) {
                     existingRevue.titre = revue.titre
                     existingRevue.commentaire = revue.commentaire
@@ -33,7 +33,7 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
                 }
                 else{
 
-                    soulier.revues.add(revue)
+                    soulier.revues?.add(revue)
                 }
                 adapter.notifyDataSetChanged()
             }
@@ -48,9 +48,9 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         binding = ActivityActiviterAjouterSoulierBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = AdapteurRevues(this, soulier.revues) // Initialize adapter here
+        adapter = soulier.revues?.let { AdapteurRevues(this, it) }!! // Initialize adapter here
         binding.lstRevues.adapter = adapter
-        binding.ratingBar.rating = soulier.note
+        binding.ratingBar.rating = soulier.note!!
         val intent = Intent(this, AjouterRevueActivity::class.java)
 
 

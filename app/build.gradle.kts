@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.espresso.intents)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     implementation(libs.gson.v286)
     androidTestImplementation(libs.androidx.junit)

@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -9,6 +10,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.google.gson.Gson
+import java.io.IOException
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,6 +61,25 @@ var listeSoulier: MutableList<Soulier> = mutableListOf(
     val adapter = AdapteurSoulier(this,listeSoulier)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        try {
+            openFileInput("ListeComptes.data").use { fileInputSream->
+                ObjectInputStream(fileInputSream).use{ objectInputStream->
+                    val newlist: MutableList<Soulier> = (objectInputStream.readObject() as MutableList<Soulier>)
+                    if(newlist.size != 0){
+                        listeSoulier = newlist
+                    }
+                }
+            }
+        }
+        catch (e:IOException){
+            e.printStackTrace()
+        }
+
+
+
+
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.listViewsoulier.adapter = adapter
         setContentView(binding.root)
@@ -90,5 +113,21 @@ var listeSoulier: MutableList<Soulier> = mutableListOf(
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        try {
+            openFileOutput("ListeData.data", Context.MODE_APPEND).use { fileOutputStream ->
+                ObjectOutputStream(fileOutputStream).use { objectOutputStream ->
+                    objectOutputStream.writeObject(listeSoulier)
+
+                }
+            }
+        }
+        catch (e: IOException){
+            e.printStackTrace()
+        }
+
     }
 }

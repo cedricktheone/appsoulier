@@ -37,7 +37,7 @@ class AdapteurSoulier(private val context: Context, private val dataList: Mutabl
 
         nom.text = currentItem.nom
         image.setImageResource(currentItem.image)
-        rating.rating = currentItem.note
+        rating.rating = currentItem.note!!
         prix.text = currentItem.prix.toString()
         println(currentItem.note)
 
