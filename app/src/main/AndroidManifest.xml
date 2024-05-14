@@ -20,7 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ActivityFormUser"
+            android:exported="false" />
         <activity
             android:name=".Login"
             android:exported="true">
@@ -35,9 +37,7 @@
         <activity
             android:name=".Formajoutsoulier"
             android:exported="false" />
-        <activity
-            android:name=".FormUtilisateur"
-            android:exported="false" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"

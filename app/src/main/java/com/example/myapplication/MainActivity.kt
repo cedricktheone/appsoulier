@@ -76,7 +76,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.ajouter -> {
-                startActivity(Intent(this, Login::class.java))
+                val intent = Intent(this, ActiviterAjouterSoulier::class.java)
+                soulierLauncher.launch(intent)
             }
         }
         return super.onOptionsItemSelected(item)

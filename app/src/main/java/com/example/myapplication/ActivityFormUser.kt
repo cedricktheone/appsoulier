@@ -1,24 +1,25 @@
+package com.example.myapplication
+
 import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.Utilisateur
-import com.example.myapplication.databinding.ActivityFormUtilisateurBinding
+import com.example.myapplication.databinding.ActivityFormUserBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.FileWriter
 import java.security.MessageDigest
 
-class FormUtilisateur : AppCompatActivity() {
-    private lateinit var binding: ActivityFormUtilisateurBinding
+class ActivityFormUser : AppCompatActivity() {
+    private lateinit var binding:ActivityFormUserBinding
     private var userList = mutableListOf<Utilisateur>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityFormUtilisateurBinding.inflate(layoutInflater)
+        binding = ActivityFormUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         userList = loadUserListFromJson().toMutableList()
@@ -60,7 +61,7 @@ class FormUtilisateur : AppCompatActivity() {
         editor.apply()
     }
 
-    private fun saveUserListToJson(userList: List<Utilisateur>) {
+    fun saveUserListToJson(userList: List<Utilisateur>) {
         val gson = Gson()
         val userListJson = gson.toJson(userList)
 
@@ -71,7 +72,7 @@ class FormUtilisateur : AppCompatActivity() {
         }
     }
 
-    private fun loadUserListFromJson(): List<Utilisateur> {
+    fun loadUserListFromJson(): List<Utilisateur> {
         val file = File(filesDir, "user_list.json")
         return if (file.exists()) {
             val jsonString = file.readText()
@@ -98,7 +99,7 @@ class FormUtilisateur : AppCompatActivity() {
         return hashedInputPassword == storedPassword
     }
 
-    private fun authenticateUser(inputPassword: String, user: Utilisateur): Boolean {
+    fun authenticateUser(inputPassword: String, user: Utilisateur): Boolean {
         return checkPassword(inputPassword, user.password)
     }
 }

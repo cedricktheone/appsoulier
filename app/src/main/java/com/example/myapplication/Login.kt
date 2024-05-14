@@ -1,9 +1,7 @@
 package com.example.myapplication
 
-import FormUtilisateur
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityLoginBinding
 
@@ -16,7 +14,7 @@ class Login : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.button.setOnClickListener {
-            val intent = Intent(this, FormUtilisateur::class.java)
+            val intent = Intent(this, ActivityFormUser::class.java)
             startActivity(intent)
         }
     }

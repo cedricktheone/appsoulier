@@ -4,11 +4,11 @@
     <item
         android:id="@+id/pageaceuille"
         android:title="@string/navigation"
-        app:showAsAction="ifRoom"
+        app:showAsAction="collapseActionView"
     />
     <item
         android:id="@+id/ajouter"
         android:title="@string/ajoutersoulier"
-        app:showAsAction="ifRoom"
+        app:showAsAction="collapseActionView"
     />
 </menu>
