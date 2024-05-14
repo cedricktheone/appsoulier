@@ -33,9 +33,10 @@ class AjouterRevueActivity : AppCompatActivity() {
             Log.i("cameraLauncher", "Location de l'image: $uri")
 
             // Set the image URI to the Revue object
-            //revue?.image = uri.toString()
+
             // Update the ImageView in the layout with the captured image
             binding.photosoulier?.setImageURI(uri)
+            revue?.image =uri.toString()
         } else {
             Log.i("cameraLauncher", "Could not save: $uri")
         }
@@ -51,18 +52,21 @@ class AjouterRevueActivity : AppCompatActivity() {
         if (revue != null) {
             binding.editTextTitre.setText(revue!!.titre)
             binding.editTextREvue.setText(revue!!.commentaire)
-            revue?.image?.let { binding.photosoulier?.setImageResource(it) }
+           // revue?.image?.let { binding.photosoulier?.setImageURI(it) }
         }
 
         binding.buttonphoto.setOnClickListener {
+            val fichier = createImageFile()
             // Check if permission is granted
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 // Request camera permission if not granted
                 requestPermissionLauncher.launch(Manifest.permission.CAMERA)
             } else {
+                uri = FileProvider.getUriForFile(this,"com.example.myapplication.fileprovider",fichier)
                 // Permission already granted, launch camera
-                launchCamera()
+
             }
+            cameraLauncher.launch(uri)
         }
 
         binding.button3.setOnClickListener {
@@ -72,7 +76,7 @@ class AjouterRevueActivity : AppCompatActivity() {
                 val titre = binding.editTextTitre.text.toString()
                 val reviewText = binding.editTextREvue.text.toString()
                 val note = binding.spinnernote.selectedItem.toString().toFloat()
-                val newRevue = Revue(titre, reviewText, "Ced", note, R.drawable.soulier)
+                val newRevue = Revue(titre, reviewText, "Ced", note, uri.toString())
 
                 val gson = Gson()
                 val soulierJson = gson.toJson(newRevue)

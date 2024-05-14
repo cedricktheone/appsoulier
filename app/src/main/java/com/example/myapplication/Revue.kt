@@ -12,7 +12,7 @@ data class Revue(
     var commentaire:String,
     val utilisateur:String,
     var note: Float,
-    var image: Int?
+    var image: String?
 ):Serializable{
     val Id : Int = count.incrementAndGet();
 

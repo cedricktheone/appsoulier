@@ -52,9 +52,9 @@ class MainActivity : AppCompatActivity() {
         loadDataFromStorage()
         if (listeSoulier.isEmpty()){
             var listeRevues: MutableList<Revue> = mutableListOf(
-                Revue("LOL","DDDD","Ced",3f,R.drawable.soulier),
-                Revue("haha","DDDD","Ced",2f,R.drawable.soulier),
-                Revue("sfdfd","DDDD","Ced",5f,R.drawable.soulier)
+                Revue("LOL","DDDD","Ced",3f,null),
+                Revue("haha","DDDD","Ced",2f,null),
+                Revue("sfdfd","DDDD","Ced",5f,null)
             )
 
             listeSoulier= mutableListOf(

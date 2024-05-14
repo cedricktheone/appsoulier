@@ -3,7 +3,10 @@ package com.example.myapplication
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityActiviterAjouterSoulierBinding
@@ -23,16 +26,13 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
                 val revueJson = it.getStringExtra("revueJson")
                 val revue = gson.fromJson(revueJson, Revue::class.java)
 
-
                 val existingRevue = soulier.revues?.find { it.Id == revue.Id }
                 if (existingRevue != null) {
                     existingRevue.titre = revue.titre
                     existingRevue.commentaire = revue.commentaire
                     existingRevue.note = revue.note
                     existingRevue.image = revue.image
-                }
-                else{
-
+                } else {
                     soulier.revues?.add(revue)
                 }
                 it.removeExtra("revueJson")
@@ -42,18 +42,20 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val soulierJson = intent.getStringExtra("soulier")
-        val gson = Gson()
-        soulier = gson.fromJson(soulierJson, Soulier::class.java)
         super.onCreate(savedInstanceState)
         binding = ActivityActiviterAjouterSoulierBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = soulier.revues?.let { AdapteurRevues(this, it) }!! // Initialize adapter here
+        val soulierJson = intent.getStringExtra("soulier")
+        val imageUriString = intent.getStringExtra("imageUri") // Retrieve the Uri as string
+        val gson = Gson()
+        soulier = gson.fromJson(soulierJson, Soulier::class.java)
+
+
+        adapter = soulier.revues?.let { AdapteurRevues(this, it) }!!
         binding.lstRevues.adapter = adapter
         binding.ratingBar.rating = soulier.note!!
         val intent = Intent(this, AjouterRevueActivity::class.java)
-
 
         binding.buttonajoutrevue.setOnClickListener {
             ajouterRevueLauncher.launch(intent)
@@ -65,13 +67,31 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
             intent.putExtra("revue", revueJson)
             ajouterRevueLauncher.launch(intent)
         }
-
     }
 
-    override fun onPause() {
-        super.onPause()
+    // Function to capture image from camera
+    private fun captureImageFromCamera() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        takePictureIntent.resolveActivity(packageManager)?.let {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            // Image captured successfully
+            val imageUri = data?.data
+            if (imageUri != null) {
+                // Pass the captured image URI to this activity
+                val intent = Intent(this, ActiviterAjouterSoulier::class.java)
+                intent.putExtra("imageUri", imageUri.toString())
+                startActivity(intent)
+            }
+        }
+    }
 
+    companion object {
+        private const val REQUEST_IMAGE_CAPTURE = 1
     }
 }
-
