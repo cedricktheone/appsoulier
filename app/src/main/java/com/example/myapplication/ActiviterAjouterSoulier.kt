@@ -12,7 +12,7 @@ import com.google.gson.Gson
 class ActiviterAjouterSoulier : AppCompatActivity() {
     private lateinit var binding: ActivityActiviterAjouterSoulierBinding
     private lateinit var soulier: Soulier
-    private lateinit var adapter: AdapteurRevues // Declare adapter as a class-level variable
+    private lateinit var adapter: AdapteurRevues
 
     // Initialize ajouterRevueLauncher as before
     val ajouterRevueLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

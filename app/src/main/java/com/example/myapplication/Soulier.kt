@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.media.Image
+import java.io.Serializable
 
 class Soulier (
     var revues:MutableList<Revue>?,
@@ -9,7 +10,7 @@ class Soulier (
     var prix:Number,
     val image: Int
 
-){
+):Serializable{
 
     init {
         calculateNote()

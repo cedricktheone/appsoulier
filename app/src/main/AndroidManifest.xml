@@ -20,9 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
-        <activity android:name=".FormUtilisateur">
-            <!-- Add any necessary intent filters or other configurations here -->
-        </activity>
+
         <activity
             android:name=".Login"
             android:exported="true">
@@ -36,6 +34,9 @@
         </activity>
         <activity
             android:name=".Formajoutsoulier"
+            android:exported="false" />
+        <activity
+            android:name=".FormUtilisateur"
             android:exported="false" />
 
         <provider
