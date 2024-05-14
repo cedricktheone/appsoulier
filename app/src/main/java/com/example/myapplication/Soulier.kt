@@ -12,18 +12,8 @@ class Soulier (
 
 ):Serializable{
 
-    init {
-        calculateNote()
-    }
 
-    private fun calculateNote() {
-        if (revues?.isNotEmpty() == true) {
-            var totalNote = 0f
-            for (revue in revues!!) {
-                totalNote += revue.note
-            }
-            note = totalNote / revues!!.size
-        }
-    }
+
+
 
 }

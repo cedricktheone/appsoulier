@@ -69,7 +69,16 @@ class AjouterRevueActivity : AppCompatActivity() {
             if (binding.editTextREvue.text.isBlank() || binding.editTextTitre.text.isBlank()) {
                 Toast.makeText(applicationContext, "SVP remplir les champs obligatoire", Toast.LENGTH_SHORT).show()
             } else {
-                // Your code for saving the revue
+                val titre = binding.editTextTitre.text.toString()
+                val reviewText = binding.editTextREvue.text.toString()
+                val note = binding.spinnernote.selectedItem.toString().toFloat()
+                val newRevue = Revue(titre, reviewText, "Ced", note, R.drawable.soulier)
+
+                val gson = Gson()
+                val soulierJson = gson.toJson(newRevue)
+                intent.putExtra("revueJson",soulierJson)
+                setResult(RESULT_OK,intent)
+                finish()
             }
         }
     }
@@ -104,5 +113,13 @@ class AjouterRevueActivity : AppCompatActivity() {
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile("JPEG_$timestamp", ".jpg", storageDir)
     }
+
+    override fun onPause() {
+        super.onPause()
+        binding.editTextTitre.text.clear()
+        binding.editTextREvue.text.clear()
+        revue = null
+    }
+
 
 }

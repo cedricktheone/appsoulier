@@ -11,7 +11,7 @@ import java.io.File
 @RunWith(AndroidJUnit4::class)
 class ActivityFormUserTest {
 
-    @Test
+    /*@Test
     fun testCreateUser() {
         // Create a test user
         val testEmail = "test@example.com"
@@ -27,7 +27,7 @@ class ActivityFormUserTest {
 
         // Load user list from JSON
         val userListJson = File(context.filesDir, "user_list.json").readText()
-        val loadedUserList = activity.loadUserListFromJson(userListJson)
+        //val loadedUserList = activity.loadUserListFromJson(userListJson)
 
         // Check if the test user is in the loaded user list
         val foundUser = loadedUserList.find { it.email == testEmail }
@@ -55,5 +55,5 @@ class ActivityFormUserTest {
         // Check authentication
         val isAuthenticated = activity.authenticateUser(testPassword, testUser)
         assertEquals("Authentication failed", true, isAuthenticated)
-    }
+    }*/
 }

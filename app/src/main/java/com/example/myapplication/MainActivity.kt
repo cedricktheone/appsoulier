@@ -1,3 +1,4 @@
+package com.example.myapplication
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -6,11 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.ActiviterAjouterSoulier
-import com.example.myapplication.AdapteurSoulier
-import com.example.myapplication.Login
-import com.example.myapplication.R
-import com.example.myapplication.Soulier
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.google.gson.Gson
 import java.io.*
@@ -19,13 +15,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var listeSoulier: MutableList<Soulier> = mutableListOf()
+    private lateinit var adapter: AdapteurSoulier
 
     private val soulierLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val intentData = result.data
             val jsonSoulier = intentData?.getStringExtra("soulier")
 
-            // Parse JSON string into Soulier object
+
             val gson = Gson()
             val soulier: Soulier? = gson.fromJson(jsonSoulier, Soulier::class.java)
 
@@ -38,12 +35,13 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     listeSoulier.add(soulier)
                 }
+
                 adapter.notifyDataSetChanged()
             }
         }
     }
 
-    private val adapter = AdapteurSoulier(this, listeSoulier)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,14 +50,26 @@ class MainActivity : AppCompatActivity() {
 
         // Load data from file
         loadDataFromStorage()
+        if (listeSoulier.isEmpty()){
+            var listeRevues: MutableList<Revue> = mutableListOf(
+                Revue("LOL","DDDD","Ced",3f,R.drawable.soulier),
+                Revue("haha","DDDD","Ced",2f,R.drawable.soulier),
+                Revue("sfdfd","DDDD","Ced",5f,R.drawable.soulier)
+            )
 
+            listeSoulier= mutableListOf(
+                Soulier(listeRevues,"DDDD",5f,20,R.drawable.soulier),
+                Soulier(listeRevues,"DDDD",2f,40,R.drawable.soulier),
+                Soulier(listeRevues,"DDDD",0f,12,R.drawable.soulier)
+            )
+
+        }
+        adapter = AdapteurSoulier(this, listeSoulier)
         binding.listViewsoulier.adapter = adapter
 
         binding.listViewsoulier.setOnItemClickListener { _, _, i, _ ->
             val intent = Intent(this, ActiviterAjouterSoulier::class.java)
             val item = adapter.getItem(i) as? Soulier
-
-            // Serialize Soulier object to JSON string
             val gson = Gson()
             val soulierJson = gson.toJson(item)
 
@@ -116,6 +126,15 @@ class MainActivity : AppCompatActivity() {
             e.printStackTrace()
         } catch (e: ClassNotFoundException) {
             e.printStackTrace()
+        }
+    }
+    private fun calculateNote(soulier:Soulier ) {
+        if (soulier.revues?.isNotEmpty() == true) {
+            var totalNote = 0f
+            for (revue in soulier.revues!!) {
+                totalNote += revue.note
+            }
+            soulier.note = totalNote / soulier.revues!!.size
         }
     }
 }
