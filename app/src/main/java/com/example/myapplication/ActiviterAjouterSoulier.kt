@@ -7,8 +7,14 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.content.res.Configuration
+import android.os.Build
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.AdapterView
+import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityActiviterAjouterSoulierBinding
 import com.google.gson.Gson
@@ -19,30 +25,6 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
     private lateinit var binding: ActivityActiviterAjouterSoulierBinding
     private lateinit var soulier: Soulier
     private lateinit var adapter: AdapteurRevues
-    private lateinit var listeSoulier: MutableList<Soulier>
-
-    private fun saveDataToStorage() {
-        try {
-            val gson = Gson()
-            val jsonString = gson.toJson(listeSoulier)
-            File("ListeData.json").writeText(jsonString)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun loadDataFromStorage() {
-        try {
-            val gson = Gson()
-            val jsonString = File("ListeData.json").readText()
-            val listType = object : TypeToken<MutableList<Soulier>>() {}.type
-            val newlist: MutableList<Soulier> = gson.fromJson(jsonString, listType)
-            listeSoulier.clear()
-            listeSoulier.addAll(newlist)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 
     // Initialize ajouterRevueLauncher as before
     private val ajouterRevueLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -71,7 +53,6 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
                     soulier.revues?.add(revue)
                 }
                 it.removeExtra("revueJson")
-                saveDataToStorage()
                 adapter.notifyDataSetChanged()
             }
         }
@@ -82,15 +63,14 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         binding = ActivityActiviterAjouterSoulierBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Check if there's a saved instance state
         if (savedInstanceState != null) {
-            soulier = savedInstanceState.getParcelable("soulier")!!
+            // Restore activity state
+            soulier = (savedInstanceState.getSerializable("soulier") as Soulier?)!!
         } else {
             val soulierJson = intent.getStringExtra("soulier")
             val gson = Gson()
             soulier = gson.fromJson(soulierJson, Soulier::class.java)
 
-            // Initialize revues list if it's null
             if (soulier.revues == null) {
                 soulier.revues = mutableListOf()
             }
@@ -106,7 +86,6 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         }
         binding.finir?.setOnClickListener {
             val gson = Gson()
-            // Finish the activity with an OK result
             val returnIntent = Intent()
             returnIntent.putExtra("updatedSoulier", gson.toJson(soulier))
             setResult(Activity.RESULT_OK, returnIntent)
@@ -120,22 +99,55 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
             intent.putExtra("revue", revueJson)
             ajouterRevueLauncher.launch(intent)
         }
+
+
+
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onPause() {
-        super.onPause()
-        saveDataToStorage()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+
+            R.id.pageaceuille->{
+                val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.remove("user")
+                editor.apply()
+
+                val intent = Intent(
+                    applicationContext,
+                    Login::class.java
+                )
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.putExtra("EXIT", true)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Save activity state
+        outState.putSerializable("soulier", soulier)
+    }
+
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        // Restore activity state
+        soulier = (savedInstanceState.getSerializable("soulier") as Soulier?)!!
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            // Image captured successfully
             val imageUri = data?.data
             if (imageUri != null) {
-                // Pass the captured image URI to this activity
                 val intent = Intent(this, ActiviterAjouterSoulier::class.java)
                 intent.putExtra("imageUri", imageUri.toString())
                 startActivity(intent)

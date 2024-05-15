@@ -18,7 +18,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 
 
@@ -69,10 +71,11 @@ class AjouterRevueActivity : AppCompatActivity() {
             } else {
                 uri = FileProvider.getUriForFile(this,"com.example.myapplication.fileprovider",fichier)
                 // Permission already granted, launch camera
-
+                cameraLauncher.launch(uri)
             }
-            cameraLauncher.launch(uri)
+
         }
+
 
         binding.button3.setOnClickListener {
             if (binding.editTextREvue.text.isBlank() || binding.editTextTitre.text.isBlank()) {
@@ -81,8 +84,11 @@ class AjouterRevueActivity : AppCompatActivity() {
                 val titre = binding.editTextTitre.text.toString()
                 val reviewText = binding.editTextREvue.text.toString()
                 val note = binding.spinnernote.selectedItem.toString().toFloat()
-                val newRevue = Revue(titre, reviewText, "Ced", note, uri.toString())
-
+                val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+                val gsonuser = Gson()
+                val json = sharedPreferences.getString("user", null)
+                val user: Utilisateur = gsonuser.fromJson(json, Utilisateur::class.java)
+                val newRevue = Revue(titre, reviewText, user.email, note, uri.toString())
                 val gson = Gson()
                 val soulierJson = gson.toJson(newRevue)
                 intent.putExtra("revueJson",soulierJson)
@@ -91,6 +97,8 @@ class AjouterRevueActivity : AppCompatActivity() {
 
             }
         }
+
+
     }
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->

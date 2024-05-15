@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.myapplication.databinding.ActivityFormajoutsoulierBinding
+import com.google.gson.Gson
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -49,7 +50,23 @@ class Formajoutsoulier : AppCompatActivity() {
             }
             cameraLauncher.launch(uri)
         }
+
+
+        binding.buttonsoumission.setOnClickListener {
+            // Retrieve values from the UI elements
+            val nom = binding.editnom.text.toString()
+            val prix = binding.editTextprix.text.toString().toFloatOrNull() ?: 0f
+            val imageUri = uri.toString()
+            val soulier = Soulier(nom, prix, imageUri)
+            val gson = Gson()
+            val soulierJson = gson.toJson(soulier)
+            val resultIntent = Intent()
+            resultIntent.putExtra("soulier", soulierJson)
+            setResult(Activity.RESULT_OK, resultIntent)
+            finish()
+        }
     }
+
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         if (isGranted) {

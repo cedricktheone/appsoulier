@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private val soulierLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val intentData = result.data
-            val jsonSoulier = intentData?.getStringExtra("soulier")
+            val jsonSoulier = intentData?.getStringExtra("updatedSoulier")
 
 
             val gson = Gson()
@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     listeSoulier.add(soulier)
                 }
-
                 adapter.notifyDataSetChanged()
             }
         }
@@ -74,24 +73,6 @@ class MainActivity : AppCompatActivity() {
             soulierLauncher.launch(intent)
         }
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_ADD_SOULIER && resultCode == Activity.RESULT_OK) {
-            val updatedSoulierJson = data?.getStringExtra("updatedSoulier")
-            val gson = Gson()
-            val updatedSoulier = gson.fromJson(updatedSoulierJson, Soulier::class.java)
-
-            // Update the corresponding Soulier object in the list
-            val existingSoulierIndex = listeSoulier.indexOfFirst { it.nom == updatedSoulier.nom }
-            if (existingSoulierIndex != -1) {
-                listeSoulier[existingSoulierIndex] = updatedSoulier
-                adapter.notifyDataSetChanged()
-            }
-        }
-    }
-    companion object {
-        private const val REQUEST_CODE_ADD_SOULIER = 100
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -109,6 +90,7 @@ class MainActivity : AppCompatActivity() {
                 val editor = sharedPreferences.edit()
                 editor.remove("user")
                 editor.apply()
+                saveDataToStorage()
                 val intent = Intent(
                     applicationContext,
                     Login::class.java
@@ -123,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        // Save data to file
+
         saveDataToStorage()
     }
 
@@ -131,7 +113,9 @@ class MainActivity : AppCompatActivity() {
         try {
             val gson = Gson()
             val jsonString = gson.toJson(listeSoulier)
-            File("ListeData.json").writeText(jsonString)
+            val outputStream: FileOutputStream = openFileOutput("ListeData.json", Context.MODE_PRIVATE)
+            outputStream.write(jsonString.toByteArray())
+            outputStream.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -140,11 +124,17 @@ class MainActivity : AppCompatActivity() {
     private fun loadDataFromStorage() {
         try {
             val gson = Gson()
-            val jsonString = File("ListeData.json").readText()
+            val inputStream: FileInputStream = openFileInput("ListeData.json")
+            val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+            val jsonString = bufferedReader.use { it.readText() }
+            bufferedReader.close()
+            inputStream.close()
             val listType = object : TypeToken<MutableList<Soulier>>() {}.type
             val newlist: MutableList<Soulier> = gson.fromJson(jsonString, listType)
             listeSoulier.clear()
             listeSoulier.addAll(newlist)
+        } catch (e: FileNotFoundException) {
+            // Handle file not found error (first time scenario)
         } catch (e: Exception) {
             e.printStackTrace()
         }

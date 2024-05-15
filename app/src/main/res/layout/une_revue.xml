@@ -4,6 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="55dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintStart_toEndOf="@+id/textViewcomms"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/poubelle" />
+
     <ImageView
         android:id="@+id/imagesoulier"
         android:layout_width="77dp"
@@ -41,12 +51,12 @@
 
     <TextView
         android:id="@+id/note"
-        android:layout_width="3dp"
-        android:layout_height="18dp"
-        android:layout_marginBottom="60dp"
+        android:layout_width="39dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="56dp"
         android:text="@string/_0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.947"
+        app:layout_constraintHorizontal_bias="0.693"
         app:layout_constraintStart_toEndOf="@+id/textViewcomms" />
 </androidx.constraintlayout.widget.ConstraintLayout>

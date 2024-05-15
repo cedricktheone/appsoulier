@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 
@@ -33,8 +34,18 @@ class AdapteurRevues(private val context: Context, private val dataList: Mutable
         val titre = itemView.findViewById<TextView>(R.id.texttitre)
         val image =  itemView.findViewById<ImageView>(R.id.imagesoulier)
         val commentaires =  itemView.findViewById<TextView>(R.id.textViewcomms)
-        //val utilisateur =  itemView.findViewById<TextView>(R.id.textViewnom)
+        val utilisateur =  itemView.findViewById<TextView>(R.id.textViewnom)
         val note=  itemView.findViewById<TextView>(R.id.note)
+        val imageButton = itemView.findViewById<ImageButton>(R.id.imageButton)
+
+
+        imageButton.setOnClickListener {
+
+           dataList.remove(currentItem)
+            notifyDataSetChanged()
+        }
+
+
         if (currentItem.image != null) {
             image.setImageURI(Uri.parse(currentItem.image))
         } else {
@@ -42,6 +53,8 @@ class AdapteurRevues(private val context: Context, private val dataList: Mutable
         }
         titre.text = currentItem.titre
         commentaires.text = currentItem.commentaire
+        utilisateur.text = currentItem.utilisateur
+
 
         note.text = currentItem.note.toString()
 
