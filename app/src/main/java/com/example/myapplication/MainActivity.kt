@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.io.*
 
 class MainActivity : AppCompatActivity() {
@@ -73,6 +74,24 @@ class MainActivity : AppCompatActivity() {
             soulierLauncher.launch(intent)
         }
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_ADD_SOULIER && resultCode == Activity.RESULT_OK) {
+            val updatedSoulierJson = data?.getStringExtra("updatedSoulier")
+            val gson = Gson()
+            val updatedSoulier = gson.fromJson(updatedSoulierJson, Soulier::class.java)
+
+            // Update the corresponding Soulier object in the list
+            val existingSoulierIndex = listeSoulier.indexOfFirst { it.nom == updatedSoulier.nom }
+            if (existingSoulierIndex != -1) {
+                listeSoulier[existingSoulierIndex] = updatedSoulier
+                adapter.notifyDataSetChanged()
+            }
+        }
+    }
+    companion object {
+        private const val REQUEST_CODE_ADD_SOULIER = 100
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -110,30 +129,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveDataToStorage() {
         try {
-            openFileOutput("ListeData.data", Context.MODE_PRIVATE).use { fileOutputStream ->
-                ObjectOutputStream(fileOutputStream).use { objectOutputStream ->
-                    objectOutputStream.writeObject(listeSoulier)
-                }
-            }
-        } catch (e: IOException) {
+            val gson = Gson()
+            val jsonString = gson.toJson(listeSoulier)
+            File("ListeData.json").writeText(jsonString)
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     private fun loadDataFromStorage() {
         try {
-            openFileInput("ListeData.data").use { fileInputStream ->
-                ObjectInputStream(fileInputStream).use { objectInputStream ->
-                    @Suppress("UNCHECKED_CAST")
-                    val newlist = objectInputStream.readObject() as? MutableList<Soulier>
-                    newlist?.let {
-                        listeSoulier = it
-                    }
-                }
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } catch (e: ClassNotFoundException) {
+            val gson = Gson()
+            val jsonString = File("ListeData.json").readText()
+            val listType = object : TypeToken<MutableList<Soulier>>() {}.type
+            val newlist: MutableList<Soulier> = gson.fromJson(jsonString, listType)
+            listeSoulier.clear()
+            listeSoulier.addAll(newlist)
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }

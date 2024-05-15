@@ -1,11 +1,10 @@
 package com.example.myapplication
 
-
+import android.os.Bundle
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.provider.MediaStore
 import android.content.res.Configuration
 import android.widget.ImageView
@@ -13,47 +12,40 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityActiviterAjouterSoulierBinding
 import com.google.gson.Gson
-import java.io.IOException
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
+import com.google.gson.reflect.TypeToken
+import java.io.File
 
 class ActiviterAjouterSoulier : AppCompatActivity() {
     private lateinit var binding: ActivityActiviterAjouterSoulierBinding
     private lateinit var soulier: Soulier
     private lateinit var adapter: AdapteurRevues
     private lateinit var listeSoulier: MutableList<Soulier>
+
     private fun saveDataToStorage() {
         try {
-            openFileOutput("ListeData.data", Context.MODE_PRIVATE).use { fileOutputStream ->
-                ObjectOutputStream(fileOutputStream).use { objectOutputStream ->
-                    objectOutputStream.writeObject(listeSoulier)
-                }
-            }
-        } catch (e: IOException) {
+            val gson = Gson()
+            val jsonString = gson.toJson(listeSoulier)
+            File("ListeData.json").writeText(jsonString)
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     private fun loadDataFromStorage() {
         try {
-            openFileInput("ListeData.data").use { fileInputStream ->
-                ObjectInputStream(fileInputStream).use { objectInputStream ->
-                    @Suppress("UNCHECKED_CAST")
-                    val newlist = objectInputStream.readObject() as? MutableList<Soulier>
-                    newlist?.let {
-                        listeSoulier = it
-                    }
-                }
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } catch (e: ClassNotFoundException) {
+            val gson = Gson()
+            val jsonString = File("ListeData.json").readText()
+            val listType = object : TypeToken<MutableList<Soulier>>() {}.type
+            val newlist: MutableList<Soulier> = gson.fromJson(jsonString, listType)
+            listeSoulier.clear()
+            listeSoulier.addAll(newlist)
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     // Initialize ajouterRevueLauncher as before
-    val ajouterRevueLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val ajouterRevueLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             data?.let {
@@ -79,11 +71,11 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
                     soulier.revues?.add(revue)
                 }
                 it.removeExtra("revueJson")
+                saveDataToStorage()
                 adapter.notifyDataSetChanged()
             }
         }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,6 +104,14 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         binding.buttonajoutrevue.setOnClickListener {
             ajouterRevueLauncher.launch(intent)
         }
+        binding.finir?.setOnClickListener {
+            val gson = Gson()
+            // Finish the activity with an OK result
+            val returnIntent = Intent()
+            returnIntent.putExtra("updatedSoulier", gson.toJson(soulier))
+            setResult(Activity.RESULT_OK, returnIntent)
+            finish()
+        }
 
         binding.lstRevues.setOnItemClickListener { parent, view, position, id ->
             val item = adapter.getItem(position) as Revue
@@ -122,16 +122,12 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         }
     }
 
-
-
-
-    // Function to capture image from camera
-    private fun captureImageFromCamera() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        takePictureIntent.resolveActivity(packageManager)?.let {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-        }
+    override fun onPause() {
+        super.onPause()
+        saveDataToStorage()
     }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -151,4 +147,3 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         private const val REQUEST_IMAGE_CAPTURE = 1
     }
 }
-
