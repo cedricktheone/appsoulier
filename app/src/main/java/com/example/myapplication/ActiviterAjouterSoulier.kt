@@ -2,20 +2,55 @@ package com.example.myapplication
 
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.content.res.Configuration
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityActiviterAjouterSoulierBinding
 import com.google.gson.Gson
+import java.io.IOException
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 
 class ActiviterAjouterSoulier : AppCompatActivity() {
     private lateinit var binding: ActivityActiviterAjouterSoulierBinding
     private lateinit var soulier: Soulier
     private lateinit var adapter: AdapteurRevues
+    private lateinit var listeSoulier: MutableList<Soulier>
+    private fun saveDataToStorage() {
+        try {
+            openFileOutput("ListeData.data", Context.MODE_PRIVATE).use { fileOutputStream ->
+                ObjectOutputStream(fileOutputStream).use { objectOutputStream ->
+                    objectOutputStream.writeObject(listeSoulier)
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun loadDataFromStorage() {
+        try {
+            openFileInput("ListeData.data").use { fileInputStream ->
+                ObjectInputStream(fileInputStream).use { objectInputStream ->
+                    @Suppress("UNCHECKED_CAST")
+                    val newlist = objectInputStream.readObject() as? MutableList<Soulier>
+                    newlist?.let {
+                        listeSoulier = it
+                    }
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+        }
+    }
 
     // Initialize ajouterRevueLauncher as before
     val ajouterRevueLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -26,13 +61,21 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
                 val revueJson = it.getStringExtra("revueJson")
                 val revue = gson.fromJson(revueJson, Revue::class.java)
 
-                val existingRevue = soulier.revues?.find { it.Id == revue.Id }
-                if (existingRevue != null) {
-                    existingRevue.titre = revue.titre
-                    existingRevue.commentaire = revue.commentaire
-                    existingRevue.note = revue.note
-                    existingRevue.image = revue.image
+                // Check if the retrieved revue already exists in the list
+                val existingRevueIndex = soulier.revues?.indexOfFirst { it.Id == revue.Id }
+
+                if (existingRevueIndex != -1) {
+                    // If the revue already exists, update its properties
+                    if (existingRevueIndex != null) {
+                        soulier.revues?.get(existingRevueIndex)?.apply {
+                            titre = revue.titre
+                            commentaire = revue.commentaire
+                            note = revue.note
+                            image = revue.image
+                        }
+                    }
                 } else {
+                    // If the revue does not exist, add it to the list
                     soulier.revues?.add(revue)
                 }
                 it.removeExtra("revueJson")
@@ -41,16 +84,25 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         }
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityActiviterAjouterSoulierBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val soulierJson = intent.getStringExtra("soulier")
-        val imageUriString = intent.getStringExtra("imageUri") // Retrieve the Uri as string
-        val gson = Gson()
-        soulier = gson.fromJson(soulierJson, Soulier::class.java)
+        // Check if there's a saved instance state
+        if (savedInstanceState != null) {
+            soulier = savedInstanceState.getParcelable("soulier")!!
+        } else {
+            val soulierJson = intent.getStringExtra("soulier")
+            val gson = Gson()
+            soulier = gson.fromJson(soulierJson, Soulier::class.java)
 
+            // Initialize revues list if it's null
+            if (soulier.revues == null) {
+                soulier.revues = mutableListOf()
+            }
+        }
 
         adapter = soulier.revues?.let { AdapteurRevues(this, it) }!!
         binding.lstRevues.adapter = adapter
@@ -63,11 +115,15 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
 
         binding.lstRevues.setOnItemClickListener { parent, view, position, id ->
             val item = adapter.getItem(position) as Revue
+            val gson = Gson()
             val revueJson = gson.toJson(item)
             intent.putExtra("revue", revueJson)
             ajouterRevueLauncher.launch(intent)
         }
     }
+
+
+
 
     // Function to capture image from camera
     private fun captureImageFromCamera() {
@@ -95,3 +151,4 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         private const val REQUEST_IMAGE_CAPTURE = 1
     }
 }
+

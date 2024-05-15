@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -34,10 +35,14 @@ class AdapteurRevues(private val context: Context, private val dataList: Mutable
         val commentaires =  itemView.findViewById<TextView>(R.id.textViewcomms)
         //val utilisateur =  itemView.findViewById<TextView>(R.id.textViewnom)
         val note=  itemView.findViewById<TextView>(R.id.note)
-
+        if (currentItem.image != null) {
+            image.setImageURI(Uri.parse(currentItem.image))
+        } else {
+            image.setImageResource(R.drawable.soulier)
+        }
         titre.text = currentItem.titre
         commentaires.text = currentItem.commentaire
-        image.setImageResource(R.drawable.soulier)
+
         note.text = currentItem.note.toString()
 
 

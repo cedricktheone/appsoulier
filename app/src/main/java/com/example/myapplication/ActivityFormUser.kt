@@ -15,6 +15,8 @@ import java.security.MessageDigest
 class ActivityFormUser : AppCompatActivity() {
     private lateinit var binding:ActivityFormUserBinding
     private var userList = mutableListOf<Utilisateur>()
+    private lateinit var emailText: String
+    private lateinit var passwordText: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +25,13 @@ class ActivityFormUser : AppCompatActivity() {
         setContentView(binding.root)
 
         userList = loadUserListFromJson().toMutableList()
+
+        if (savedInstanceState != null) {
+            emailText = savedInstanceState.getString("emailText", "")
+            passwordText = savedInstanceState.getString("passwordText", "")
+            binding.editTextText.setText(emailText)
+            binding.editTextText2.setText(passwordText)
+        }
 
         binding.button4.setOnClickListener {
             val email = binding.editTextText.text.toString()
@@ -57,6 +66,14 @@ class ActivityFormUser : AppCompatActivity() {
             }
         }
     }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        emailText = binding.editTextText.text.toString()
+        passwordText = binding.editTextText2.text.toString()
+        outState.putString("emailText", emailText)
+        outState.putString("passwordText", passwordText)
+    }
+
 
     private fun saveUserToSharedPreferences(user: Utilisateur) {
         val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)

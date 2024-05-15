@@ -4,13 +4,13 @@ import android.media.Image
 import java.io.Serializable
 
 class Soulier (
-    var revues:MutableList<Revue>?,
     val nom:String,
     var prix:Number,
-    val image: Int,
-    var note:Float? =0f
+    var image: String?,
+    var revues:MutableList<Revue>? = mutableListOf(),
+    var note:Float? =0f,
 
-):Serializable{
+    ):Serializable{
 
 
 

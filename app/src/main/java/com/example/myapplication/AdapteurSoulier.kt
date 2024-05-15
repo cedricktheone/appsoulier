@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,13 +37,22 @@ class AdapteurSoulier(private val context: Context, private val dataList: Mutabl
         currentItem.note = calculateNote(currentItem)
 
         nom.text = currentItem.nom
-        image.setImageResource(currentItem.image)
+
+        // Handle null URI
+        if (currentItem.image != null) {
+            image.setImageURI(Uri.parse(currentItem.image))
+        } else {
+            // Set a placeholder or default image if URI is null
+            // For example:
+            image.setImageResource(R.drawable.soulier)
+        }
+
         rating.rating = currentItem.note!!
         prix.text = currentItem.prix.toString()
 
-
-       return itemView
+        return itemView
     }
+
     private fun calculateNote(soulier:Soulier ): Float? {
         if (soulier.revues?.isNotEmpty() == true) {
             var totalNote = 0f

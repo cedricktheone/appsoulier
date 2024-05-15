@@ -58,6 +58,7 @@
             android:theme="@style/Theme.MyApplication" />
         <activity
             android:name=".ActiviterAjouterSoulier"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false" />
     </application>
 

@@ -29,12 +29,7 @@ class AjouterRevueActivity : AppCompatActivity() {
 
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
-            // Use the uri variable declared outside this block
             Log.i("cameraLauncher", "Location de l'image: $uri")
-
-            // Set the image URI to the Revue object
-
-            // Update the ImageView in the layout with the captured image
             binding.photosoulier?.setImageURI(uri)
             revue?.image =uri.toString()
         } else {
@@ -49,10 +44,20 @@ class AjouterRevueActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAjouterRevueBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        if (revue != null) {
-            binding.editTextTitre.setText(revue!!.titre)
-            binding.editTextREvue.setText(revue!!.commentaire)
-           // revue?.image?.let { binding.photosoulier?.setImageURI(it) }
+        // Restore the state if there's a saved instance state
+        savedInstanceState?.let {
+            revue = it.getSerializable("revue") as? Revue
+            binding.editTextTitre.setText(it.getString("titre", ""))
+            binding.editTextREvue.setText(it.getString("reviewText", ""))
+            uri = it.getParcelable("uri")
+            uri?.let { binding.photosoulier.setImageURI(it) }
+        }
+
+        // If the revue object is not null, populate the EditText fields
+        revue?.let {
+            binding.editTextTitre.setText(it.titre)
+            binding.editTextREvue.setText(it.commentaire)
+            uri?.let { uri -> binding.photosoulier.setImageURI(uri) }
         }
 
         binding.buttonphoto.setOnClickListener {
@@ -83,6 +88,7 @@ class AjouterRevueActivity : AppCompatActivity() {
                 intent.putExtra("revueJson",soulierJson)
                 setResult(RESULT_OK,intent)
                 finish()
+
             }
         }
     }
@@ -108,7 +114,7 @@ class AjouterRevueActivity : AppCompatActivity() {
             uri = FileProvider.getUriForFile(this, "com.example.myapplication.fileprovider", it)
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
-            //cameraLauncher.launch(cameraIntent)
+            cameraLauncher.launch(uri)
         }
     }
 
@@ -118,12 +124,18 @@ class AjouterRevueActivity : AppCompatActivity() {
         return File.createTempFile("JPEG_$timestamp", ".jpg", storageDir)
     }
 
-    override fun onPause() {
-        super.onPause()
-        binding.editTextTitre.text.clear()
-        binding.editTextREvue.text.clear()
-        revue = null
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Save the revue object and other necessary data to restore the state later
+        outState.putSerializable("revue", revue)
+        outState.putString("titre", binding.editTextTitre.text.toString())
+        outState.putString("reviewText", binding.editTextREvue.text.toString())
+        outState.putParcelable("uri", uri)
     }
+
+
+
+
 
 
 }

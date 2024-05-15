@@ -51,16 +51,12 @@ class MainActivity : AppCompatActivity() {
         // Load data from file
         loadDataFromStorage()
         if (listeSoulier.isEmpty()){
-            var listeRevues: MutableList<Revue> = mutableListOf(
-                Revue("LOL","DDDD","Ced",3f,null),
-                Revue("haha","DDDD","Ced",2f,null),
-                Revue("sfdfd","DDDD","Ced",5f,null)
-            )
+
 
             listeSoulier= mutableListOf(
-                Soulier(listeRevues,"DDDD",20,R.drawable.soulier),
-                Soulier(listeRevues,"DDDD",40,R.drawable.soulier),
-                Soulier(listeRevues,"DDDD",12,R.drawable.soulier)
+                Soulier("DDDD",20,null),
+                Soulier("DDDD",40,null),
+                Soulier("DDDD",12,null)
             )
 
         }
@@ -86,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.ajouter -> {
-                val intent = Intent(this, ActiviterAjouterSoulier::class.java)
+                val intent = Intent(this, Formajoutsoulier::class.java)
                 soulierLauncher.launch(intent)
             }
             R.id.pageaceuille->{
