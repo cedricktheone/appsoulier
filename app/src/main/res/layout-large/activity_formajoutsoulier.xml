@@ -9,8 +9,8 @@
 
     <Button
         android:id="@+id/buttonsoumission"
-        android:layout_width="182dp"
-        android:layout_height="42dp"
+        android:layout_width="606dp"
+        android:layout_height="143dp"
         android:layout_marginBottom="72dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,59 +19,62 @@
 
     <ImageView
         android:id="@+id/imageViewphotosoulier"
-        android:layout_width="100dp"
-    android:layout_height="100dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:srcCompat="@tools:sample/avatars" />
+        android:layout_width="332dp"
+        android:layout_height="309dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="345dp"
+        android:layout_height="98dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="32dp"
         android:text="@string/soumettre_une_photo"
         app:layout_constraintStart_toEndOf="@+id/imageViewphotosoulier"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextprix"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="324dp"
-        android:layout_marginEnd="28dp"
+        android:layout_width="404dp"
+        android:layout_height="106dp"
+        android:layout_marginTop="764dp"
+        android:layout_marginEnd="260dp"
         android:ems="10"
         android:inputType="text"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button5" />
 
     <TextView
         android:id="@+id/textViewprix"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="112dp"
+        android:layout_width="154dp"
+        android:layout_height="109dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="52dp"
         android:text="prix"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewnom" />
 
     <TextView
         android:id="@+id/textViewnom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="136dp"
+        android:layout_width="133dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="72dp"
         android:text="nom"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/editnom"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editnom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="188dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="436dp"
+        android:layout_height="87dp"
+        android:layout_marginTop="592dp"
+        android:layout_marginEnd="228dp"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"

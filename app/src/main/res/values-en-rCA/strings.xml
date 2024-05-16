@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="shonosure">Shonosure</string>
+    <string name="login">Login</string>
+    <string name="ajouter">Add</string>
+    <string name="soumettre">Submit</string>
+    <string name="revue">Review:</string>
+    <string name="titre">Title:</string>
+    <string name="photo">Photo</string>
+    <string name="note">0.0</string>
+    <string name="ajouter_une_revue">Add a Review</string>
+    <string name="modifier">Edit</string>
+    <string name="supprimer">Delete</string>
+    <string name="titre_lbl">Title</string>
+    <string name="commentaires">Comments</string>
+    <string name="textview">TextView</string>
+    <string name="navigation">LogOut</string>
+    <string name="ajoutersoulier">Add Shoe</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="title_activity_activite_ajouter_soulier">Activity_AddShoe</string>
+    <string name="nom">Name</string>
+    <string name="prix">Price</string>
+    <string name="_0">0</string>
+    <string name="noterevue">Note:</string>
+    <string name="soumettre_une_photo">Submit a Photo</string>
+    <string name="email">Email</string>
+    <string name="mot_de_passe">Password</string>
+    <string name="loginBTN">LogIn</string>
+    <string name="image_de_l_icone_login">Login Icon Image</string>
+    <string name="finir">Finish</string>
+</resources>
