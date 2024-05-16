@@ -14,4 +14,15 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    @Test
+    fun testRevueValidation() {
+        val validRevue = Revue("Valid Titre", "Valid Commentaire", "Valid Utilisateur", 4.0f, "Valid Image")
+        val invalidRevue = Revue("", "", "", 6.0f, null)
+
+        assertNotNull(validRevue)
+        assertNotNull(invalidRevue)
+    }
+
+
 }
