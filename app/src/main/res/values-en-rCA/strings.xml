@@ -34,4 +34,7 @@
     <string name="loginBTN">LogIn</string>
     <string name="image_de_l_icone_login">Login Icon Image</string>
     <string name="finir">Finish</string>
+    <string name="prixtv">price</string>
+    <string name="buttonsoumettre">submit</string>
+    <string name="nomtv">name</string>
 </resources>

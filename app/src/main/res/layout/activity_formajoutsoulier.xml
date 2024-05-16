@@ -12,7 +12,7 @@
         android:layout_width="182dp"
         android:layout_height="42dp"
         android:layout_marginBottom="72dp"
-        android:text="Button"
+        android:text="@string/buttonsoumettre"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -20,10 +20,10 @@
     <ImageView
         android:id="@+id/imageViewphotosoulier"
         android:layout_width="100dp"
-    android:layout_height="100dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:srcCompat="@tools:sample/avatars" />
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/button5"
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="112dp"
-        android:text="prix"
+        android:text="@string/prixtv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewnom" />
 
@@ -60,11 +60,11 @@
         android:id="@+id/textViewnom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="136dp"
-        android:text="nom"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="163dp"
+        android:text="@string/nomtv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewphotosoulier" />
 
     <EditText
         android:id="@+id/editnom"

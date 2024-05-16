@@ -7,8 +7,8 @@
 
     <EditText
         android:id="@+id/editTextREvue"
-        android:layout_width="537dp"
-        android:layout_height="41dp"
+        android:layout_width="179dp"
+        android:layout_height="33dp"
         android:layout_marginStart="68dp"
         android:ems="10"
         android:gravity="start|top"
@@ -20,7 +20,8 @@
         android:id="@+id/textVCommentaires"
         android:layout_width="133dp"
         android:layout_height="28dp"
-        android:layout_marginTop="91dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="52dp"
         android:text="@string/revue"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,17 +29,18 @@
 
     <ImageView
         android:id="@+id/photosoulier"
-        android:layout_width="172dp"
-        android:layout_height="143dp"
+        android:layout_width="148dp"
+        android:layout_height="102dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/buttonphoto"
-        android:layout_width="113dp"
-        android:layout_height="103dp"
-        android:layout_marginStart="52dp"
+        android:layout_width="100dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/orange"
         android:text="@string/photo"
         app:layout_constraintStart_toEndOf="@+id/photosoulier"
@@ -48,17 +50,20 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/orange"
         android:text="@string/soumettre"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.401"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textVCommentaires" />
 
     <TextView
         android:id="@+id/textVtitre"
         android:layout_width="115dp"
         android:layout_height="31dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="80dp"
         android:text="@string/titre"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +71,7 @@
 
     <EditText
         android:id="@+id/editTextTitre"
-        android:layout_width="522dp"
+        android:layout_width="161dp"
         android:layout_height="45dp"
         android:layout_marginStart="84dp"
         android:ems="10"
@@ -79,7 +84,8 @@
         android:id="@+id/spinnernote"
         android:layout_width="235dp"
         android:layout_height="0dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="248dp"
         android:entries="@array/un_a_5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -88,10 +94,10 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="60dp"
         android:text="@string/noterevue"
-        app:layout_constraintBaseline_toBaselineOf="@+id/spinnernote"
         app:layout_constraintEnd_toStartOf="@+id/spinnernote"
-        app:layout_constraintHorizontal_bias="0.816"
-        app:layout_constraintStart_toEndOf="@+id/buttonphoto" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonphoto" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,7 +31,7 @@ class Formajoutsoulier : AppCompatActivity() {
         binding = ActivityFormajoutsoulierBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Restore the state of EditText fields if savedInstanceState is not null
+        // Restaurer l'état des champs EditText si savedInstanceState n'est pas nul
         if (savedInstanceState != null) {
             binding.editTextprix.setText(savedInstanceState.getString("title"))
             binding.textViewprix.setText(savedInstanceState.getString("description"))
@@ -39,21 +39,20 @@ class Formajoutsoulier : AppCompatActivity() {
 
         binding.button5.setOnClickListener {
             val fichier = createImageFile()
-            // Check if permission is granted
+            // Vérifier si la permission est accordée
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                // Request camera permission if not granted
+                // Demander l'autorisation de la caméra si elle n'est pas accordée
                 requestPermissionLauncher.launch(Manifest.permission.CAMERA)
             } else {
                 uri = FileProvider.getUriForFile(this,"com.example.myapplication.fileprovider",fichier)
-                // Permission already granted, launch camera
-
+                // Autorisation déjà accordée, lancer la caméra
             }
             cameraLauncher.launch(uri)
         }
 
 
         binding.buttonsoumission.setOnClickListener {
-            // Retrieve values from the UI elements
+            // Récupérer les valeurs des éléments de l'interface utilisateur
             val nom = binding.editnom.text.toString()
             val prix = binding.editTextprix.text.toString().toFloatOrNull() ?: 0f
             val imageUri = uri.toString()
@@ -70,7 +69,7 @@ class Formajoutsoulier : AppCompatActivity() {
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         if (isGranted) {
-            // Permission granted, launch camera
+            // Permission accordée, lancer la caméra
             launchCamera()
         } else {
             Toast.makeText(this, "La permission a été refusée", Toast.LENGTH_SHORT).show()
@@ -78,11 +77,11 @@ class Formajoutsoulier : AppCompatActivity() {
     }
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
-            Log.i("cameraLauncher", "Location de l'image: $uri")
+            Log.i("cameraLauncher", "Emplacement de l'image : $uri")
             binding.imageViewphotosoulier.setImageURI(uri)
-            soulier?.image =uri.toString()
+            soulier?.image = uri.toString()
         } else {
-            Log.i("cameraLauncher", "Could not save: $uri")
+            Log.i("cameraLauncher", "Impossible de sauvegarder : $uri")
         }
     }
 
@@ -106,10 +105,4 @@ class Formajoutsoulier : AppCompatActivity() {
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile("JPEG_$timestamp", ".jpg", storageDir)
     }
-
-
-
-
-
-
 }

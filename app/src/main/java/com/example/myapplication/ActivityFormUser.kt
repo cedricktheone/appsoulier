@@ -13,7 +13,7 @@ import java.io.FileWriter
 import java.security.MessageDigest
 
 class ActivityFormUser : AppCompatActivity() {
-    private lateinit var binding:ActivityFormUserBinding
+    private lateinit var binding: ActivityFormUserBinding
     private var userList = mutableListOf<Utilisateur>()
     private lateinit var emailText: String
     private lateinit var passwordText: String
@@ -38,31 +38,28 @@ class ActivityFormUser : AppCompatActivity() {
             val password = binding.editTextText2.text.toString()
 
             if (email.isBlank() || password.isBlank()) {
-                Toast.makeText(this, "Please fill in both fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Veuillez remplir les deux champs", Toast.LENGTH_SHORT).show()
             } else {
                 val intent = Intent(this, MainActivity::class.java)
                 val existingUser = userList.find { it.email == email }
                 if (existingUser != null) {
                     if (authenticateUser(password, existingUser)) {
                         saveUserToSharedPreferences(existingUser)
-                        Toast.makeText(this, "User authenticated", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Utilisateur authentifié", Toast.LENGTH_SHORT).show()
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Mot de passe incorrect", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    // Hash the password before using it
+                    // Hasher le mot de passe avant de l'utiliser
                     val hashedPassword = hashPassword(password)
                     val user = Utilisateur(email, hashedPassword)
                     userList.add(user)
                     saveUserListToJson(userList)
                     saveUserToSharedPreferences(user)
-                    Toast.makeText(this, "User created successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Utilisateur créé avec succès", Toast.LENGTH_SHORT).show()
                     startActivity(intent)
-
                 }
-
-
             }
         }
     }
@@ -73,7 +70,6 @@ class ActivityFormUser : AppCompatActivity() {
         outState.putString("emailText", emailText)
         outState.putString("passwordText", passwordText)
     }
-
 
     private fun saveUserToSharedPreferences(user: Utilisateur) {
         val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
@@ -88,7 +84,7 @@ class ActivityFormUser : AppCompatActivity() {
         val gson = Gson()
         val userListJson = gson.toJson(userList)
 
-        // Save JSON string to a file or use it as needed
+        // Enregistrer la chaîne JSON dans un fichier ou l'utiliser selon les besoins
         val file = File(filesDir, "user_list.json")
         FileWriter(file).use { writer ->
             writer.write(userListJson)
@@ -112,7 +108,6 @@ class ActivityFormUser : AppCompatActivity() {
             val bytes = digest.digest(password.toByteArray())
             bytes.joinToString("") { "%02x".format(it) }
         } catch (e: Exception) {
-            // Handle hashing error appropriately
             ""
         }
     }

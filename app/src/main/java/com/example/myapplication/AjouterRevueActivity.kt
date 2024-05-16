@@ -33,9 +33,9 @@ class AjouterRevueActivity : AppCompatActivity() {
         if (success) {
             Log.i("cameraLauncher", "Location de l'image: $uri")
             binding.photosoulier?.setImageURI(uri)
-            revue?.image =uri.toString()
+            revue?.image = uri.toString()
         } else {
-            Log.i("cameraLauncher", "Could not save: $uri")
+            Log.i("cameraLauncher", "Impossible de sauvegarder: $uri")
         }
     }
 
@@ -46,7 +46,8 @@ class AjouterRevueActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAjouterRevueBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Restore the state if there's a saved instance state
+
+        // Restaurer l'état si un état enregistré existe
         savedInstanceState?.let {
             revue = it.getSerializable("revue") as? Revue
             binding.editTextTitre.setText(it.getString("titre", ""))
@@ -55,7 +56,7 @@ class AjouterRevueActivity : AppCompatActivity() {
             uri?.let { binding.photosoulier.setImageURI(it) }
         }
 
-        // If the revue object is not null, populate the EditText fields
+        // Si l'objet revue n'est pas nul, remplir les champs EditText
         revue?.let {
             binding.editTextTitre.setText(it.titre)
             binding.editTextREvue.setText(it.commentaire)
@@ -64,22 +65,21 @@ class AjouterRevueActivity : AppCompatActivity() {
 
         binding.buttonphoto.setOnClickListener {
             val fichier = createImageFile()
-            // Check if permission is granted
+            // Vérifier si la permission est accordée
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                // Request camera permission if not granted
+                // Demander la permission de la caméra si elle n'est pas accordée
                 requestPermissionLauncher.launch(Manifest.permission.CAMERA)
             } else {
-                uri = FileProvider.getUriForFile(this,"com.example.myapplication.fileprovider",fichier)
-                // Permission already granted, launch camera
+                uri = FileProvider.getUriForFile(this, "com.example.myapplication.fileprovider", fichier)
+                // La permission est déjà accordée, lancer l'appareil photo
                 cameraLauncher.launch(uri)
             }
 
         }
 
-
         binding.button3.setOnClickListener {
             if (binding.editTextREvue.text.isBlank() || binding.editTextTitre.text.isBlank()) {
-                Toast.makeText(applicationContext, "SVP remplir les champs obligatoire", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Veuillez remplir les champs obligatoires", Toast.LENGTH_SHORT).show()
             } else {
                 val titre = binding.editTextTitre.text.toString()
                 val reviewText = binding.editTextREvue.text.toString()
@@ -91,19 +91,17 @@ class AjouterRevueActivity : AppCompatActivity() {
                 val newRevue = Revue(titre, reviewText, user.email, note, uri.toString())
                 val gson = Gson()
                 val soulierJson = gson.toJson(newRevue)
-                intent.putExtra("revueJson",soulierJson)
-                setResult(RESULT_OK,intent)
+                intent.putExtra("revueJson", soulierJson)
+                setResult(RESULT_OK, intent)
                 finish()
 
             }
         }
-
-
     }
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         if (isGranted) {
-            // Permission granted, launch camera
+            // Permission accordée, lancer l'appareil photo
             launchCamera()
         } else {
             Toast.makeText(this, "La permission a été refusée", Toast.LENGTH_SHORT).show()
@@ -134,16 +132,11 @@ class AjouterRevueActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        // Save the revue object and other necessary data to restore the state later
+        // Sauvegarder l'objet revue et les autres données nécessaires pour restaurer l'état ultérieurement
         outState.putSerializable("revue", revue)
         outState.putString("titre", binding.editTextTitre.text.toString())
         outState.putString("reviewText", binding.editTextREvue.text.toString())
         outState.putParcelable("uri", uri)
     }
-
-
-
-
-
-
 }
+

@@ -40,7 +40,6 @@ class AdapteurRevues(private val context: Context, private val dataList: Mutable
 
 
         imageButton.setOnClickListener {
-
            dataList.remove(currentItem)
             notifyDataSetChanged()
         }

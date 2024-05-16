@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +11,7 @@
         android:layout_width="606dp"
         android:layout_height="143dp"
         android:layout_marginBottom="4dp"
-        android:text="Button"
+        android:text="@string/buttonsoumettre"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
@@ -32,8 +31,8 @@
         android:id="@+id/button5"
         android:layout_width="345dp"
         android:layout_height="98dp"
-        android:layout_marginStart="172dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="44dp"
         android:text="@string/soumettre_une_photo"
         app:layout_constraintStart_toEndOf="@+id/imageViewphotosoulier"
         app:layout_constraintTop_toTopOf="parent" />
@@ -55,7 +54,7 @@
         android:layout_height="109dp"
         android:layout_marginStart="144dp"
         android:layout_marginTop="40dp"
-        android:text="prix"
+        android:text="@string/prixtv"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewnom" />
@@ -65,7 +64,7 @@
         android:layout_width="133dp"
         android:layout_height="120dp"
         android:layout_marginStart="156dp"
-        android:text="nom"
+        android:text="@string/nomtv"
         android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/editnom"
         app:layout_constraintStart_toStartOf="parent" />
@@ -80,4 +79,6 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

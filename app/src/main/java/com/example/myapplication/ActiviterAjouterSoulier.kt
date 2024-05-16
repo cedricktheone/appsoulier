@@ -26,7 +26,7 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
     private lateinit var soulier: Soulier
     private lateinit var adapter: AdapteurRevues
 
-    // Initialize ajouterRevueLauncher as before
+    // Initialisez ajouterRevueLauncher comme précédemment
     private val ajouterRevueLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
@@ -35,11 +35,11 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
                 val revueJson = it.getStringExtra("revueJson")
                 val revue = gson.fromJson(revueJson, Revue::class.java)
 
-                // Check if the retrieved revue already exists in the list
+                // Vérifiez si la revue récupérée existe déjà dans la liste
                 val existingRevueIndex = soulier.revues?.indexOfFirst { it.Id == revue.Id }
 
                 if (existingRevueIndex != -1) {
-                    // If the revue already exists, update its properties
+                    // Si la revue existe déjà, mettez à jour ses propriétés
                     if (existingRevueIndex != null) {
                         soulier.revues?.get(existingRevueIndex)?.apply {
                             titre = revue.titre
@@ -49,7 +49,7 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
                         }
                     }
                 } else {
-                    // If the revue does not exist, add it to the list
+                    // Si la revue n'existe pas, ajoutez-la à la liste
                     soulier.revues?.add(revue)
                 }
                 it.removeExtra("revueJson")
@@ -64,7 +64,7 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState != null) {
-            // Restore activity state
+            // Restaurer l'état de l'activité
             soulier = (savedInstanceState.getSerializable("soulier") as Soulier?)!!
         } else {
             val soulierJson = intent.getStringExtra("soulier")
@@ -75,6 +75,11 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
                 soulier.revues = mutableListOf()
             }
         }
+
+        val imageButton = findViewById<ImageButton>(R.id.imageButton)
+
+
+
 
         adapter = soulier.revues?.let { AdapteurRevues(this, it) }!!
         binding.lstRevues.adapter = adapter
@@ -87,7 +92,7 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         binding.finir?.setOnClickListener {
             val gson = Gson()
             val returnIntent = Intent()
-            returnIntent.putExtra("updatedSoulier", gson.toJson(soulier))
+            returnIntent.putExtra("soulier", gson.toJson(soulier))
             setResult(Activity.RESULT_OK, returnIntent)
             finish()
         }
@@ -132,14 +137,14 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        // Save activity state
+        // Sauvegarder l'état de l'activité
         outState.putSerializable("soulier", soulier)
     }
 
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        // Restore activity state
+        // Restaurer l'état de l'activité
         soulier = (savedInstanceState.getSerializable("soulier") as Soulier?)!!
     }
 
@@ -159,3 +164,4 @@ class ActiviterAjouterSoulier : AppCompatActivity() {
         private const val REQUEST_IMAGE_CAPTURE = 1
     }
 }
+

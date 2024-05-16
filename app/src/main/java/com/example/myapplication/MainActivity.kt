@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private val soulierLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val intentData = result.data
-            val jsonSoulier = intentData?.getStringExtra("updatedSoulier")
+            val jsonSoulier = intentData?.getStringExtra("soulier")
 
 
             val gson = Gson()
